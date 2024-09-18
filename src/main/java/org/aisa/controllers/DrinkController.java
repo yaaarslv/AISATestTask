@@ -23,7 +23,8 @@ public class DrinkController {
     @PostMapping("/create")
     public ResponseEntity<Drink> createDrink(@RequestBody CreateDrinkDTO drinkDTO) {
         Drink drink = new Drink(drinkDTO.getName(), drinkDTO.getWaterAmount(), drinkDTO.getCoffeeAmount(),drinkDTO.getMilkAmount());
-        return new ResponseEntity<>(drinkService.createDrink(drink), HttpStatus.CREATED);
+        Drink createdDrink = drinkService.createDrink(drink);
+        return ResponseEntity.ok(createdDrink);
     }
 
     @GetMapping("/{id}")

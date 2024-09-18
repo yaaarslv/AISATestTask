@@ -7,7 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
 @Entity
 @Table(name = "drink_statistics")
 public class DrinkStatistics {
@@ -16,9 +19,11 @@ public class DrinkStatistics {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @OneToOne
     private Drink drink;
 
+    @Setter
     @Column(name = "orders_count")
     private int ordersCount;
 
@@ -28,26 +33,6 @@ public class DrinkStatistics {
     public DrinkStatistics(Drink drink, int ordersCount) {
         this.drink = drink;
         this.ordersCount = ordersCount;
-    }
-
-    public int getOrdersCount() {
-        return ordersCount;
-    }
-
-    public void setOrdersCount(int ordersCount) {
-        this.ordersCount = ordersCount;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Drink getDrink() {
-        return drink;
-    }
-
-    public void setDrink(Drink drink) {
-        this.drink = drink;
     }
 }
 

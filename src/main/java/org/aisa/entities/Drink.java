@@ -1,7 +1,10 @@
 package org.aisa.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
 @Entity
 @Table(name = "drink")
 public class Drink {
@@ -10,15 +13,19 @@ public class Drink {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @Column(name = "name")
     private String name;
 
+    @Setter
     @Column(name = "water_amount")
     private int waterAmount;
 
+    @Setter
     @Column(name = "coffee_amount")
     private int coffeeAmount;
 
+    @Setter
     @Column(name = "milk_amount")
     private int milkAmount;
 
@@ -29,42 +36,6 @@ public class Drink {
         this.name = name;
         this.waterAmount = waterAmount;
         this.coffeeAmount = coffeeAmount;
-        this.milkAmount = milkAmount;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getWaterAmount() {
-        return waterAmount;
-    }
-
-    public void setWaterAmount(int waterAmount) {
-        this.waterAmount = waterAmount;
-    }
-
-    public int getCoffeeAmount() {
-        return coffeeAmount;
-    }
-
-    public void setCoffeeAmount(int coffeeAmount) {
-        this.coffeeAmount = coffeeAmount;
-    }
-
-    public int getMilkAmount() {
-        return milkAmount;
-    }
-
-    public void setMilkAmount(int milkAmount) {
         this.milkAmount = milkAmount;
     }
 }
