@@ -25,7 +25,6 @@ public class DrinkService {
     public Drink createDrink(Drink drink) {
         System.out.println("попало сюда");
         drinkRepository.save(drink);
-        // Создаем запись в статистике при создании нового напитка
         DrinkStatistics stats = new DrinkStatistics(drink, 0);
         drinkStatisticsRepository.save(stats);
         return drink;

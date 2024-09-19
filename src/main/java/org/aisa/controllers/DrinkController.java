@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.aisa.services.DrinkService;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,16 +21,10 @@ public class DrinkController {
         this.drinkService = drinkService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Drink> createDrink(@RequestBody CreateDrinkDTO drinkDTO) {
-        Drink drink = new Drink(drinkDTO.getName(), drinkDTO.getWaterAmount(), drinkDTO.getCoffeeAmount(),drinkDTO.getMilkAmount());
-        Drink createdDrink = drinkService.createDrink(drink);
-        return ResponseEntity.ok(createdDrink);
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<Drink> getDrink(@PathVariable Long id) {
-        return new ResponseEntity<>(drinkService.getDrink(id), HttpStatus.OK);
+    public ResponseEntity<Drink> getDrink(@PathVariable("id") Long id) {
+        Drink drink = drinkService.getDrink(id);
+        return ResponseEntity.ok(drink);
     }
 
     @GetMapping
