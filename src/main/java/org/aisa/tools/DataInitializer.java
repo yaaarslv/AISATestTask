@@ -18,7 +18,6 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        // Создание напитков при запуске приложения, если их ещё нет
         createDrinkIfNotExists("Эспрессо", 30, 10, 0);
         createDrinkIfNotExists("Американо", 50, 10, 0);
         createDrinkIfNotExists("Капучино", 40, 10, 20);
