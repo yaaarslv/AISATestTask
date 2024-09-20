@@ -19,7 +19,6 @@ public class OrderController {
 
     @GetMapping()
     public ResponseEntity<Drink> orderDrink(@RequestParam(value = "id", required = false) Long id, @RequestParam(value = "name", required = false) String name) throws CoffeeException {
-        Drink drink = orderService.orderDrink(id, name);
-        return ResponseEntity.ok(drink);
+        return ResponseEntity.ok(orderService.orderDrink(id, name));
     }
 }

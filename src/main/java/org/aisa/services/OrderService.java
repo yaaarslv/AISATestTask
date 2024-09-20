@@ -1,9 +1,7 @@
 package org.aisa.services;
 
 import org.aisa.entities.Drink;
-import org.aisa.entities.DrinkStatistics;
 import org.aisa.entities.MachineInventory;
-import org.aisa.repositories.DrinkStatisticsRepository;
 import org.aisa.tools.exceptions.CoffeeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ public class OrderService {
         } else if (name != null) {
             drink = drinkService.getDrinkByName(name);
         } else {
-            throw CoffeeException.coffeeTypeNotSelectedException();
+            throw CoffeeException.recipeTypeNotSelectedException();
         }
 
         MachineInventory inventory = coffeeMachineService.getInventory();
@@ -43,7 +41,7 @@ public class OrderService {
         inventory.setWater(inventory.getWater() - drink.getWaterAmount());
         inventory.setCoffee(inventory.getCoffee() - drink.getCoffeeAmount());
         inventory.setMilk(inventory.getMilk() - drink.getMilkAmount());
-        coffeeMachineService.updateInventory(inventory);
+        coffeeMachineService.updateInventoryAfterOrdering(inventory);
 
         drinkService.increaseCoffeeStatistics(drink);
 

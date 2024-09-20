@@ -20,7 +20,51 @@ public class CoffeeMachineService {
                 .orElseThrow(CoffeeException::coffeeMachineInventoryNotInitializedException);
     }
 
-    public void updateInventory(MachineInventory inventory) {
+    public MachineInventory createInventory(MachineInventory inventory) throws CoffeeException {
+        if (inventory.getWater() == null || inventory.getCoffee() == null || inventory.getMilk() == null) {
+            throw CoffeeException.recipeIngredientIsNullException();
+        }
+
+        if (inventory.getWater() < 0 || inventory.getCoffee() < 0 || inventory.getMilk() < 0) {
+            throw CoffeeException.recipeIngredientIsNegativeException();
+        }
+
+        machineInventoryRepository.save(inventory);
+        return inventory;
+    }
+
+    public MachineInventory updateInventory(Long id, MachineInventory newInventory) throws CoffeeException {
+        MachineInventory existingInventory = machineInventoryRepository.findById(id)
+                .orElseThrow(CoffeeException::coffeeMachineInventoryNotInitializedException);
+
+        if (newInventory.getWater() != null) {
+            if (newInventory.getWater() < 0) {
+                throw CoffeeException.coffeeMachineIngredientIsNegativeException();
+            }
+
+            existingInventory.setWater(newInventory.getWater());
+        }
+
+        if (newInventory.getCoffee() != null) {
+            if (newInventory.getCoffee() < 0) {
+                throw CoffeeException.coffeeMachineIngredientIsNegativeException();
+            }
+
+            existingInventory.setCoffee(newInventory.getCoffee());
+        }
+
+        if (newInventory.getMilk() != null) {
+            if (newInventory.getMilk() < 0) {
+                throw CoffeeException.coffeeMachineIngredientIsNegativeException();
+            }
+
+            existingInventory.setMilk(newInventory.getMilk());
+        }
+
+        return machineInventoryRepository.save(existingInventory);
+    }
+
+    public void updateInventoryAfterOrdering(MachineInventory inventory) {
         machineInventoryRepository.save(inventory);
     }
 }
