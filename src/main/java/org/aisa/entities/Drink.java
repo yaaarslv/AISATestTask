@@ -24,20 +24,20 @@ public class Drink {
 
     @Setter
     @Column(name = "water_amount")
-    private int waterAmount;
+    private Long waterAmount;
 
     @Setter
     @Column(name = "coffee_amount")
-    private int coffeeAmount;
+    private Long coffeeAmount;
 
     @Setter
     @Column(name = "milk_amount")
-    private int milkAmount;
+    private Long milkAmount;
 
     public Drink() {
     }
 
-    public Drink(String name, int waterAmount, int coffeeAmount, int milkAmount) {
+    public Drink(String name, Long waterAmount, Long coffeeAmount, Long milkAmount) {
         this.name = name;
         this.waterAmount = waterAmount;
         this.coffeeAmount = coffeeAmount;

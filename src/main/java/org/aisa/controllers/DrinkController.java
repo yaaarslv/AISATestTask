@@ -1,11 +1,16 @@
 package org.aisa.controllers;
 
 import org.aisa.entities.Drink;
+import org.aisa.entities.DrinkStatistics;
+import org.aisa.tools.exceptions.CoffeeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import org.aisa.services.DrinkService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -19,24 +24,19 @@ public class DrinkController {
         this.drinkService = drinkService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Drink> getDrink(@PathVariable("id") Long id) {
-        Drink drink = drinkService.getDrink(id);
-        return ResponseEntity.ok(drink);
-    }
-
     @GetMapping
     public ResponseEntity<List<Drink>> getAllDrinks() {
         return new ResponseEntity<>(drinkService.getAllDrinks(), HttpStatus.OK);
     }
 
-    @PostMapping("/order/{id}")
-    public ResponseEntity<Drink> orderDrink(@PathVariable Long id) {
-        return new ResponseEntity<>(drinkService.orderDrink(id), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<Drink> getDrink(@PathVariable("id") Long id) throws CoffeeException {
+        Drink drink = drinkService.getDrinkById(id);
+        return ResponseEntity.ok(drink);
     }
 
     @GetMapping("/popular")
-    public ResponseEntity<Drink> getMostPopularDrink() {
-        return new ResponseEntity<>(drinkService.getMostPopularDrink(), HttpStatus.OK);
+    public ResponseEntity<List<DrinkStatistics>> getMostPopularDrink() throws CoffeeException {
+        return new ResponseEntity<>(drinkService.getMostPopularDrinks(), HttpStatus.OK);
     }
 }

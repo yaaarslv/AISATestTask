@@ -2,13 +2,12 @@ package org.aisa.services;
 
 import org.aisa.entities.Drink;
 import org.aisa.entities.DrinkStatistics;
-import jakarta.persistence.EntityNotFoundException;
+import org.aisa.tools.exceptions.CoffeeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.aisa.repositories.DrinkRepository;
 import org.aisa.repositories.DrinkStatisticsRepository;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -30,26 +29,35 @@ public class DrinkService {
         return drink;
     }
 
-    public Drink getDrink(Long id) {
-        return drinkRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Напиток не найден"));
+    public Drink getDrinkById(Long id) throws CoffeeException {
+        return drinkRepository.findById(id).orElseThrow(CoffeeException::coffeeTypeNotFoundException);
+    }
+
+    public Drink getDrinkByName(String name) throws CoffeeException {
+        return drinkRepository.findByName(name).orElseThrow(CoffeeException::coffeeTypeNotFoundException);
     }
 
     public List<Drink> getAllDrinks() {
         return drinkRepository.findAll();
     }
 
-    public Drink orderDrink(Long id) {
-        Drink drink = getDrink(id);
-        DrinkStatistics stats = drinkStatisticsRepository.findByDrink(drink).orElseThrow(() -> new RuntimeException("Статистика не найдена"));
-        stats.setOrdersCount(stats.getOrdersCount() + 1);
-        drinkStatisticsRepository.save(stats);
-        return drink;
+    public List<DrinkStatistics> getMostPopularDrinks() throws CoffeeException {
+        Integer maxOrdersCount = drinkStatisticsRepository.findMaxOrdersCount();
+        if (maxOrdersCount == null) {
+            throw CoffeeException.coffeeStatisticIsEmptyException();
+        }
+
+        return drinkStatisticsRepository.findAllWithMaxOrdersCount(maxOrdersCount);
     }
 
-    public Drink getMostPopularDrink() {
-        return drinkStatisticsRepository.findAll().stream()
-                .max(Comparator.comparing(DrinkStatistics::getOrdersCount))
-                .map(DrinkStatistics::getDrink)
-                .orElseThrow(() -> new RuntimeException("Статистика пуста"));
+    public void increaseCoffeeStatistics(Drink drink) throws CoffeeException {
+        if (drink == null) {
+            throw CoffeeException.coffeeIsNullException();
+        }
+
+        DrinkStatistics stats = drinkStatisticsRepository.findByDrinkId(drink.getId())
+                .orElseThrow(CoffeeException::coffeeStatisticNotFoundException);
+        stats.setOrdersCount(stats.getOrdersCount() + 1);
+        drinkStatisticsRepository.save(stats);
     }
 }
