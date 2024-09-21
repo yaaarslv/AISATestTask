@@ -6,7 +6,6 @@ import org.aisa.repositories.MachineInventoryRepository;
 import org.aisa.services.CoffeeMachineService;
 import org.aisa.services.DrinkService;
 import org.aisa.tools.exceptions.CoffeeException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,6 @@ public class DataInitializer implements CommandLineRunner {
     private final CoffeeMachineService coffeeMachineService;
     private final MachineInventoryRepository machineInventoryRepository;
 
-    @Autowired
     public DataInitializer(DrinkService drinkService, CoffeeMachineService coffeeMachineService, MachineInventoryRepository machineInventoryRepository) {
         this.drinkService = drinkService;
         this.coffeeMachineService = coffeeMachineService;

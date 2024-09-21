@@ -3,19 +3,18 @@ package org.aisa.services;
 import org.aisa.entities.Drink;
 import org.aisa.entities.DrinkStatistics;
 import org.aisa.tools.exceptions.CoffeeException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.aisa.repositories.DrinkRepository;
 import org.aisa.repositories.DrinkStatisticsRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DrinkService {
     private final DrinkRepository drinkRepository;
     private final DrinkStatisticsRepository drinkStatisticsRepository;
 
-    @Autowired
     public DrinkService(DrinkRepository drinkRepository, DrinkStatisticsRepository drinkStatisticsRepository) {
         this.drinkRepository = drinkRepository;
         this.drinkStatisticsRepository = drinkStatisticsRepository;
@@ -29,7 +28,7 @@ public class DrinkService {
         if (drink.getWaterAmount() == null || drink.getCoffeeAmount() == null || drink.getMilkAmount() == null) {
             throw CoffeeException.recipeIngredientIsNullException();
         }
-        
+
         if (drink.getWaterAmount() + drink.getCoffeeAmount() + drink.getMilkAmount() == 0) {
             throw CoffeeException.recipeAmountsAreZeroException();
         }
@@ -39,8 +38,6 @@ public class DrinkService {
         }
 
         drinkRepository.save(drink);
-        DrinkStatistics stats = new DrinkStatistics(drink, 0);
-        drinkStatisticsRepository.save(stats);
         return drink;
     }
 
@@ -91,23 +88,27 @@ public class DrinkService {
         return drinkRepository.findAll();
     }
 
-    public List<DrinkStatistics> getMostPopularDrinks() throws CoffeeException {
-        Integer maxOrdersCount = drinkStatisticsRepository.findMaxOrdersCount();
-        if (maxOrdersCount == null) {
+    public List<Drink> getMostPopularDrinks() throws CoffeeException {
+        List<Object[]> results = drinkStatisticsRepository.findDrinkOrdersCount();
+
+        if (results.isEmpty()) {
             throw CoffeeException.coffeeStatisticIsEmptyException();
         }
 
-        return drinkStatisticsRepository.findAllWithMaxOrdersCount(maxOrdersCount);
+        Long maxOrdersCount = (Long) results.get(0)[1];
+
+        return results.stream()
+                .filter(result -> result[1].equals(maxOrdersCount))
+                .map(result -> (Drink) result[0])
+                .collect(Collectors.toList());
     }
 
-    public void increaseCoffeeStatistics(Drink drink) throws CoffeeException {
+    public void addCoffeeStatistics(Drink drink) throws CoffeeException {
         if (drink == null) {
             throw CoffeeException.recipeIsNullException();
         }
 
-        DrinkStatistics stats = drinkStatisticsRepository.findByDrinkId(drink.getId())
-                .orElseThrow(CoffeeException::coffeeStatisticNotFoundException);
-        stats.setOrdersCount(stats.getOrdersCount() + 1);
+        DrinkStatistics stats = new DrinkStatistics(drink);
         drinkStatisticsRepository.save(stats);
     }
 }

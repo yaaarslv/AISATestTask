@@ -3,7 +3,6 @@ package org.aisa.services;
 import org.aisa.entities.Drink;
 import org.aisa.entities.MachineInventory;
 import org.aisa.tools.exceptions.CoffeeException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,7 +10,6 @@ public class OrderService {
     private final DrinkService drinkService;
     private final CoffeeMachineService coffeeMachineService;
 
-    @Autowired
     public OrderService(DrinkService drinkService, CoffeeMachineService coffeeMachineService) {
         this.drinkService = drinkService;
         this.coffeeMachineService = coffeeMachineService;
@@ -43,7 +41,7 @@ public class OrderService {
         inventory.setMilk(inventory.getMilk() - drink.getMilkAmount());
         coffeeMachineService.updateInventoryAfterOrdering(inventory);
 
-        drinkService.increaseCoffeeStatistics(drink);
+        drinkService.addCoffeeStatistics(drink);
 
         return drink;
     }

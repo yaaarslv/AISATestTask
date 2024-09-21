@@ -2,9 +2,7 @@ package org.aisa.controllers;
 
 import org.aisa.dtos.CreateOrUpdateDrinkDTO;
 import org.aisa.entities.Drink;
-import org.aisa.entities.DrinkStatistics;
 import org.aisa.tools.exceptions.CoffeeException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.aisa.services.DrinkService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +20,6 @@ import java.util.List;
 public class DrinkController {
     private final DrinkService drinkService;
 
-    @Autowired
     public DrinkController(DrinkService drinkService) {
         this.drinkService = drinkService;
     }
@@ -38,7 +35,7 @@ public class DrinkController {
     }
 
     @GetMapping("/popular")
-    public ResponseEntity<List<DrinkStatistics>> getMostPopularDrink() throws CoffeeException {
+    public ResponseEntity<List<Drink>> getMostPopularDrink() throws CoffeeException {
         return ResponseEntity.ok(drinkService.getMostPopularDrinks());
     }
 

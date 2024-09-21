@@ -5,10 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -20,19 +23,17 @@ public class DrinkStatistics {
     private Long id;
 
     @Setter
-    @OneToOne
+    @ManyToOne
     private Drink drink;
 
-    @Setter
-    @Column(name = "orders_count")
-    private int ordersCount;
+    @CreationTimestamp
+    @Column(updatable = false, name = "created_at")
+    private LocalDateTime createdAt;
 
     public DrinkStatistics() {
     }
 
-    public DrinkStatistics(Drink drink, int ordersCount) {
+    public DrinkStatistics(Drink drink) {
         this.drink = drink;
-        this.ordersCount = ordersCount;
     }
 }
-
