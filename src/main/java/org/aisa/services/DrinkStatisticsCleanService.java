@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+/**
+ * Service for scheduled cleaning drink statistics that are older 5 years
+ */
 @Service
 public class DrinkStatisticsCleanService {
     private final DrinkStatisticsRepository drinkStatisticsRepository;
@@ -15,6 +18,7 @@ public class DrinkStatisticsCleanService {
     public DrinkStatisticsCleanService(DrinkStatisticsRepository drinkStatisticsRepository) {
         this.drinkStatisticsRepository = drinkStatisticsRepository;
     }
+
 
     @Scheduled(cron = "0 0 0 * * ?")
     @Transactional
