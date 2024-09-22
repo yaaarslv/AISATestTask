@@ -9,6 +9,9 @@ import org.aisa.tools.exceptions.CoffeeException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+/**
+ * Class-initialization of base drinks and creating coffee machine inventory if it doesn't exist
+ */
 @Component
 public class DataInitializer implements CommandLineRunner {
     private final DrinkService drinkService;
@@ -34,7 +37,7 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void createDrinkIfNotExists(String name, Long waterAmount, Long coffeeAmount, Long milkAmount) throws CoffeeException {
-        if (drinkService.getAllDrinks().stream().noneMatch(drink -> drink.getName().equals(name))) {
+        if (drinkService.getAllDrinks(false).stream().noneMatch(drink -> drink.getName().equals(name))) {
             Drink drink = new Drink(name, waterAmount, coffeeAmount, milkAmount);
             drinkService.createDrink(drink);
         }

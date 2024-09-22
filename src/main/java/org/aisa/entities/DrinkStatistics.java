@@ -13,6 +13,9 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
+/**
+ * Drink statistic entity of database
+ */
 @Getter
 @Entity
 @Table(name = "drink_statistics")

@@ -1,5 +1,8 @@
 package org.aisa.tools.exceptions;
 
+/**
+ * Custom exceptions for operations on drinks, coffee machine inventory
+ */
 public class CoffeeException extends Exception {
     private CoffeeException(String message) {
         super(message);
@@ -7,6 +10,10 @@ public class CoffeeException extends Exception {
 
     public static CoffeeException recipeTypeNotSelectedException() {
         return new CoffeeException("Не выбран рецепт для приготовления кофе");
+    }
+
+    public static CoffeeException recipeTypeAlreadyExistsException() {
+        return new CoffeeException("Данный рецепт приготовления кофе уже существует");
     }
 
     public static CoffeeException recipeIsNullException() {
@@ -43,10 +50,6 @@ public class CoffeeException extends Exception {
 
     public static CoffeeException notEnoughMilk(String coffeeName, Long inventoryMilk, Long milkAmount) {
         return new CoffeeException("Недостаточно молока для приготовления " + coffeeName + ". В наличии: " + inventoryMilk + ", требуется: " + milkAmount);
-    }
-
-    public static CoffeeException coffeeStatisticNotFoundException() {
-        return new CoffeeException("Статистика не найдена");
     }
 
     public static CoffeeException coffeeStatisticIsEmptyException() {

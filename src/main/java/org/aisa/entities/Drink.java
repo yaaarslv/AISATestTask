@@ -9,6 +9,9 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Drink entity of database
+ */
 @Getter
 @Entity
 @Table(name = "drink")

@@ -5,7 +5,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-
+/**
+ * Model of error response
+ */
 @Getter
 @Setter
 public class CustomErrorResponse {

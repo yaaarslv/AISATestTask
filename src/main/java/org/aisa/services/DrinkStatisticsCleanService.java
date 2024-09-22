@@ -1,5 +1,6 @@
 package org.aisa.services;
 
+import org.aisa.tools.ConsoleLogger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.aisa.repositories.DrinkStatisticsRepository;
@@ -19,7 +20,7 @@ public class DrinkStatisticsCleanService {
     @Transactional
     public void cleanupOldStatistics() {
         LocalDateTime cutoffDate = LocalDateTime.now().minusYears(5);
-        System.out.println("Статистика старше 5 лет удалена");
+        ConsoleLogger.log("Статистика старше 5 лет удалена", ConsoleLogger.LogLevel.WARNING);
         drinkStatisticsRepository.deleteAllByCreatedAtBefore(cutoffDate);
     }
 }

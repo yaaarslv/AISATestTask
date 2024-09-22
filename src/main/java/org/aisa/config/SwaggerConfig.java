@@ -5,13 +5,10 @@ import io.swagger.v3.oas.models.info.Info;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.function.RequestPredicates;
-import org.springframework.web.servlet.function.RouterFunction;
-import org.springframework.web.servlet.function.RouterFunctions;
-import org.springframework.web.servlet.function.ServerResponse;
 
-import java.net.URI;
-
+/**
+ * Config for swagger
+ */
 @Configuration
 public class SwaggerConfig {
     @Bean
@@ -28,11 +25,5 @@ public class SwaggerConfig {
                 .group("my-api")
                 .pathsToMatch("/api/**")
                 .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> router() {
-        return RouterFunctions.route(RequestPredicates.GET("/aisa-api"), req ->
-                ServerResponse.temporaryRedirect(URI.create("/swagger-ui.html")).build());
     }
 }

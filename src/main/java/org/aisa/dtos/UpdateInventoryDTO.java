@@ -3,6 +3,9 @@ package org.aisa.dtos;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Model for updating coffee machine inventory
+ */
 @Getter
 @Setter
 public class UpdateInventoryDTO {

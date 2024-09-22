@@ -3,6 +3,9 @@ package org.aisa.dtos;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Model for creating or updating drink
+ */
 @Getter
 @Setter
 public class CreateOrUpdateDrinkDTO {
